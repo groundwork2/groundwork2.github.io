@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groundwork — Websites for Local Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #131C2E;
+    --blueprint: #2F5D8C;
+    --cyanline: #6FD1FF;
+    --paper: #F5F6F3;
+    --signal: #FF6A3D;
+    --line: rgba(19, 28, 46, 0.14);
+    --line-strong: rgba(19, 28, 46, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+  }
+
+  /* blueprint grid texture */
+  .grid-bg {
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blueprint);
+  }
+
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* corner crop marks — used on sectioned panels */
+  .panel {
+    position: relative;
+    border: 1px solid var(--line-strong);
+    background: rgba(255,255,255,0.55);
+  }
+  .panel::before, .panel::after,
+  .panel .cm-br, .panel .cm-bl {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+  }
+  .panel::before { top: -1px; left: -1px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+  .panel::after { top: -1px; right: -1px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+  .panel .cm-bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+  .panel .cm-br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+
+  header {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; }
+  .brand span { color: var(--blueprint); }
+  nav a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: none;
+    margin-left: 28px;
+  }
+  nav a:hover { color: var(--blueprint); }
+
+  .hero {
+    padding: 100px 0 90px;
+    position: relative;
+  }
+  .hero .tag { margin-bottom: 18px; display: block; }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 68px);
+    font-weight: 700;
+    max-width: 780px;
+    line-height: 1.05;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--blueprint);
+    text-decoration: underline;
+    text-decoration-color: var(--cyanline);
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+  }
+  .hero p.lede {
+    font-size: 18px;
+    max-width: 560px;
+    margin-top: 24px;
+    color: rgba(19,28,46,0.75);
+  }
+  .hero .cta-row { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    padding: 14px 24px;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-solid { background: var(--ink); color: var(--paper); }
+  .btn-outline { border: 1px solid var(--line-strong); color: var(--ink); }
+
+  /* before/after signature element */
+  .transform {
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+  .transform .panel { padding: 20px; }
+  .transform .label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--line-strong); margin-bottom: 12px; }
+  .before-card { opacity: 0.55; }
+  .before-card .line { height: 8px; background: var(--line); border-radius: 2px; margin-bottom: 8px; }
+  .before-card .line.short { width: 40%; }
+  .after-card { border-color: var(--blueprint); }
+  .after-card .title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .after-card .swatch { display: flex; gap: 6px; margin-top: 12px; }
+  .after-card .swatch div { width: 22px; height: 22px; border-radius: 3px; }
+  .arrow { font-size: 22px; color: var(--signal); font-family: 'IBM Plex Mono', monospace; }
+
+  section { padding: 80px 0; }
+  section .tag { margin-bottom: 14px; }
+  section h2 { font-size: clamp(28px, 4vw, 38px); max-width: 600px; margin-bottom: 40px; }
+
+  .services {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+  }
+  .services.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .service {
+    background: var(--paper);
+    padding: 32px 28px;
+  }
+  .service .num { font-family: 'IBM Plex Mono', monospace; color: var(--blueprint); font-size: 13px; margin-bottom: 16px; }
+  .service h3 { font-size: 19px; margin-bottom: 10px; }
+  .service p { font-size: 14.5px; color: rgba(19,28,46,0.7); margin: 0; }
+
+  .pricing {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .price-card { padding: 32px; }
+  .price-card .tag { margin-bottom: 10px; }
+  .price-card .amount { font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700; margin: 6px 0 4px; }
+  .price-card .amount small { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 400; color: rgba(19,28,46,0.55); }
+  .price-card ul { padding-left: 18px; margin: 20px 0 0; font-size: 14.5px; color: rgba(19,28,46,0.75); }
+  .price-card li { margin-bottom: 8px; }
+
+  .contact-panel { padding: 44px; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; }
+  .contact-grid h2 { margin-bottom: 16px; }
+  .contact-grid p { color: rgba(19,28,46,0.7); font-size: 15px; max-width: 380px; }
+  form { display: grid; gap: 14px; }
+  label { font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blueprint); }
+  input, textarea {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    padding: 12px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    background: rgba(255,255,255,0.7);
+    color: var(--ink);
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--blueprint);
+    box-shadow: 0 0 0 3px rgba(47,93,140,0.15);
+  }
+  textarea { resize: vertical; min-height: 110px; }
+  .field { display: grid; gap: 6px; }
+  .submit-btn {
+    justify-self: start;
+    background: var(--signal);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 14px 28px;
+    border-radius: 2px;
+  }
+  .submit-btn:hover { transform: translateY(-2px); }
+  .form-note { font-size: 12.5px; color: rgba(19,28,46,0.5); margin-top: 4px; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0;
+  }
+  footer .wrap { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: rgba(19,28,46,0.5); }
+
+  @media (max-width: 760px) {
+    .services { grid-template-columns: 1fr; }
+    .services.cols-4 { grid-template-columns: 1fr; }
+    .pricing { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+    .transform { grid-template-columns: 1fr; }
+    .arrow { transform: rotate(90deg); justify-self: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn, .submit-btn { transition: none; }
+  }
+</style>
+</head>
+<body class="grid-bg">
+
+  <header>
+    <div class="wrap">
+      <div class="brand">ground<span>work</span></div>
+      <nav>
+        <a href="#what-i-do">What I Do</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <span class="tag">// Web builds for small local businesses</span>
+      <h1>Your business deserves a site that <em>actually exists.</em></h1>
+      <p class="lede">Half the businesses on Google Maps don't have a website at all. I build simple, fast, good-looking ones — from scratch, in days, not weeks.</p>
+      <div class="cta-row">
+        <a href="#contact" class="btn btn-solid">Start a project</a>
+        <a href="#what-i-do" class="btn btn-outline">See how it works</a>
+      </div>
+
+      <div class="transform">
+        <div class="panel before-card">
+          <div class="cm-bl"></div><div class="cm-br"></div>
+          <div class="label">Before</div>
+          <div class="line" style="width: 70%"></div>
+          <div class="line short"></div>
+          <div class="line" style="width: 55%"></div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--line-strong);margin-top:14px;">No website found</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="panel after-card">
+          <div class="cm-bl"></div><div class="cm-br"></div>
+          <div class="label" style="color:var(--blueprint)">After</div>
+          <div class="title">Your Business Name</div>
+          <div style="font-size:13px;color:rgba(19,28,46,0.6)">Live, mobile-friendly, easy to find.</div>
+          <div class="swatch">
+            <div style="background:var(--blueprint)"></div>
+            <div style="background:var(--cyanline)"></div>
+            <div style="background:var(--signal)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="what-i-do">
+    <div class="wrap">
+      <span class="tag">// What I do</span>
+      <h2>Three ways I can help, depending on where you're starting from.</h2>
+      <div class="services">
+        <div class="service">
+          <div class="num">01</div>
+          <h3>Full website build</h3>
+          <p>A clean, custom site built from the ground up — home page, contact info, photos, everything you need to look legit online.</p>
+        </div>
+        <div class="service">
+          <div class="num">02</div>
+          <h3>Google listing cleanup</h3>
+          <p>If you're not ready for a full site, I'll fix up your Google Business listing — hours, photos, description, all of it.</p>
+        </div>
+        <div class="service">
+          <div class="num">03</div>
+          <h3>Ongoing updates</h3>
+          <p>Once your site's live, I keep it running and make changes whenever you need — new hours, new photos, new pages.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <span class="tag">// How it works</span>
+      <h2>Four steps, start to finish.</h2>
+      <div class="services cols-4">
+        <div class="service">
+          <div class="num">01</div>
+          <h3>You tell me what you need</h3>
+          <p>A quick chat about your business — what you want the site to say, what it should look like.</p>
+        </div>
+        <div class="service">
+          <div class="num">02</div>
+          <h3>I build a sample</h3>
+          <p>You see the actual site before paying anything. If it's not right, we adjust it or you walk away, no cost.</p>
+        </div>
+        <div class="service">
+          <div class="num">03</div>
+          <h3>You approve, it goes live</h3>
+          <p>Once you're happy, I set it up with its own domain and it's live for the world to find.</p>
+        </div>
+        <div class="service">
+          <div class="num">04</div>
+          <h3>Message me anytime</h3>
+          <p>Need something changed later? Use the chat on this site — it goes straight to me.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <span class="tag">// Pricing</span>
+      <h2>Straightforward pricing, no surprises.</h2>
+      <div class="pricing">
+        <div class="panel price-card">
+          <div class="cm-bl"></div><div class="cm-br"></div>
+          <span class="tag">One-time</span>
+          <div class="amount">$150 <small>build fee</small></div>
+          <ul>
+            <li>Custom site built around your business</li>
+            <li>Domain name included for year one</li>
+            <li>Delivered in about a week</li>
+          </ul>
+        </div>
+        <div class="panel price-card">
+          <div class="cm-bl"></div><div class="cm-br"></div>
+          <span class="tag">Ongoing</span>
+          <div class="amount">$20 <small>/ month</small></div>
+          <ul>
+            <li>Hosting so your site stays live</li>
+            <li>Text or message me anytime for changes</li>
+            <li>Cancel anytime, no contract</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <span class="tag">// Questions</span>
+      <h2>Things people usually ask.</h2>
+      <div class="panel" style="padding: 8px 32px;">
+        <div class="cm-bl"></div><div class="cm-br"></div>
+        <div style="border-bottom: 1px solid var(--line); padding: 20px 0;">
+          <strong>Do I own the website?</strong>
+          <p style="margin: 8px 0 0; color: rgba(19,28,46,0.7); font-size: 14.5px;">Yes. The domain and site are yours — the monthly fee just covers hosting and me keeping it updated.</p>
+        </div>
+        <div style="border-bottom: 1px solid var(--line); padding: 20px 0;">
+          <strong>What if I want to cancel?</strong>
+          <p style="margin: 8px 0 0; color: rgba(19,28,46,0.7); font-size: 14.5px;">No contract — cancel the monthly plan anytime. Your domain still belongs to you either way.</p>
+        </div>
+        <div style="padding: 20px 0;">
+          <strong>How fast can this happen?</strong>
+          <p style="margin: 8px 0 0; color: rgba(19,28,46,0.7); font-size: 14.5px;">Usually about a week from our first chat to your site going live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="panel contact-panel">
+        <div class="cm-bl"></div><div class="cm-br"></div>
+        <div class="contact-grid">
+          <div>
+            <span class="tag">// Get in touch</span>
+            <h2>Tell me about your business.</h2>
+            <p>Already a client and need something changed? Use the chat bubble in the bottom corner, or the form below — both come straight to me.</p>
+          </div>
+          <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="field">
+              <label for="business">Business name</label>
+              <input type="text" id="business" name="business">
+            </div>
+            <div class="field">
+              <label for="email">Email or phone</label>
+              <input type="text" id="email" name="contact" required>
+            </div>
+            <div class="field">
+              <label for="message">What do you need?</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send message</button>
+            <div class="form-note">Goes straight to my inbox — I usually reply within a day.</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span>groundwork © 2026</span>
+      <span>built one site at a time</span>
+    </div>
+  </footer>
+  <!--
+    LIVE CHAT WIDGET (Tawk.to — free, real one-on-one messaging, no backend needed)
+    1. Go to tawk.to and make a free account (just an email, no card)
+    2. It gives you a script snippet with two IDs in the URL like:
+       https://embed.tawk.to/YOUR_PROPERTY_ID/YOUR_WIDGET_ID
+    3. Replace the two placeholders below with your real IDs
+    4. Download the Tawk.to app on your phone — replies come straight to you
+  -->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/6a5c103d1c52dc1d4c7edc4f/1jtrpus28';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+  </script>
+
+</body>
+</html>
