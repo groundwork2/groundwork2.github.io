@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lennox's Lunch Truck — University City</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #221C1A;
+    --paper: #FBF3E7;
+    --mustard: #E8A33D;
+    --brick: #C43D2E;
+    --sage: #5C7A5E;
+    --line: rgba(34,28,26,0.14);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    line-height: 1.5;
+  }
+  h1, h2, h3 { font-family: 'Archivo Black', sans-serif; margin: 0; line-height: 1.05; }
+  .scribble { font-family: 'Caveat', cursive; font-weight: 700; }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+
+  header { padding: 22px 0; border-bottom: 3px solid var(--ink); background: var(--paper); }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-family: 'Archivo Black', sans-serif; font-size: 20px; }
+  .brand span { color: var(--brick); }
+  nav a { font-weight: 600; font-size: 14px; color: var(--ink); text-decoration: none; margin-left: 26px; }
+  nav a:hover { color: var(--brick); }
+
+  .status-bar {
+    background: var(--sage);
+    color: var(--paper);
+    text-align: center;
+    padding: 8px;
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+  }
+  .status-bar .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #B8E0BB; margin-right: 8px; }
+
+  .hero { padding: 70px 0 60px; position: relative; }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
+  .hero h1 { font-size: clamp(38px, 6vw, 60px); }
+  .hero h1 .accent { color: var(--brick); }
+  .hero p.lede { font-size: 17px; margin-top: 18px; max-width: 460px; color: rgba(34,28,26,0.75); }
+  .cta-row { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { font-weight: 700; font-size: 14px; padding: 14px 26px; text-decoration: none; display: inline-block; border-radius: 4px; border: 3px solid var(--ink); }
+  .btn-solid { background: var(--brick); color: var(--paper); border-color: var(--brick); }
+  .btn-outline { background: transparent; color: var(--ink); }
+
+  /* location card — signature element */
+  .location-card {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 6px;
+    padding: 22px;
+    transform: rotate(-2deg);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .location-card .pin { font-size: 22px; }
+  .location-card .today { font-family: 'Caveat', cursive; font-size: 30px; color: var(--brick); font-weight: 700; margin: 6px 0 2px; }
+  .location-card .addr { font-weight: 600; font-size: 15px; }
+  .location-card .hours-mini { margin-top: 12px; font-size: 13.5px; color: rgba(34,28,26,0.65); border-top: 1px dashed var(--line); padding-top: 12px; }
+
+  section { padding: 64px 0; }
+  .section-tag { font-family: 'Caveat', cursive; font-size: 26px; color: var(--brick); font-weight: 700; }
+  section h2 { font-size: clamp(26px, 4vw, 36px); margin: 4px 0 36px; max-width: 560px; }
+
+  .menu-board {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 40px;
+  }
+  .menu-board .section-tag { color: var(--mustard); }
+  .menu-board h2 { color: var(--paper); }
+  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 40px; }
+  .menu-item { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px dashed rgba(251,243,231,0.25); gap: 12px; }
+  .menu-item .name { font-weight: 600; }
+  .menu-item .desc { font-size: 13px; color: rgba(251,243,231,0.6); margin-top: 3px; }
+  .menu-item .price { font-family: 'Archivo Black', sans-serif; color: var(--mustard); font-size: 15px; white-space: nowrap; }
+
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .review-card { background: white; border: 2px solid var(--ink); border-radius: 6px; padding: 22px; }
+  .review-card .stars { color: var(--mustard); font-size: 15px; margin-bottom: 10px; }
+  .review-card p { font-size: 14.5px; margin: 0 0 12px; color: rgba(34,28,26,0.85); }
+  .review-card .who { font-family: 'Caveat', cursive; font-size: 19px; font-weight: 700; color: var(--brick); }
+
+  .hours-location { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  .info-card { border: 2px solid var(--ink); border-radius: 6px; padding: 28px; }
+  .info-card h3 { font-size: 18px; margin-bottom: 16px; }
+  .hours-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14.5px; border-bottom: 1px solid var(--line); }
+  .hours-row.today { font-weight: 700; color: var(--brick); }
+
+  footer { border-top: 3px solid var(--ink); padding: 30px 0; text-align: center; }
+  footer .brand { justify-content: center; margin-bottom: 6px; }
+  footer p { font-size: 13px; color: rgba(34,28,26,0.6); margin: 0; }
+
+  @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .reviews { grid-template-columns: 1fr; }
+    .hours-location { grid-template-columns: 1fr; }
+    .location-card { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="status-bar"><span class="dot"></span>Open now — parked at Drexel, 34th &amp; Ludlow</div>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">Lennox's <span>Lunch Truck</span></div>
+      <nav>
+        <a href="#menu">Menu</a>
+        <a href="#hours">Hours &amp; Location</a>
+        <a href="#reviews">Reviews</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Sandwiches worth <span class="accent">skipping class</span> for.</h1>
+        <p class="lede">Burgers, banh mi, grilled cheese, and breakfast sandwiches — made fresh on the truck, parked right behind campus.</p>
+        <div class="cta-row">
+          <a href="#menu" class="btn btn-solid">See the menu</a>
+          <a href="#hours" class="btn btn-outline">Find the truck</a>
+        </div>
+      </div>
+      <div class="location-card">
+        <div class="pin">📍</div>
+        <div class="today">Today's spot</div>
+        <div class="addr">3198 Ludlow St, Philadelphia — behind Drexel's main building</div>
+        <div class="hours-mini">Open 8:00 AM – 3:00 PM · Mon–Fri</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="wrap">
+      <div class="menu-board">
+        <div class="section-tag">the menu</div>
+        <h2>Made to order, every time.</h2>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div><div class="name">Beef Banh Mi</div><div class="desc">Marinated beef, pickled veg, fresh herbs</div></div>
+            <div class="price">$9</div>
+          </div>
+          <div class="menu-item">
+            <div><div class="name">Hot Sausage Breakfast Sandwich</div><div class="desc">On a toasted croissant</div></div>
+            <div class="price">$7</div>
+          </div>
+          <div class="menu-item">
+            <div><div class="name">Classic Grilled Cheese</div><div class="desc">Simple, gooey, done right</div></div>
+            <div class="price">$4</div>
+          </div>
+          <div class="menu-item">
+            <div><div class="name">Birria Tacos</div><div class="desc">Served with consommé for dipping</div></div>
+            <div class="price">$10</div>
+          </div>
+          <div class="menu-item">
+            <div><div class="name">Chicken Tenders</div><div class="desc">Crispy, with your choice of sauce</div></div>
+            <div class="price">$8</div>
+          </div>
+          <div class="menu-item">
+            <div><div class="name">Beef &amp; Shrimp Hibachi Platter</div><div class="desc">Grilled with veggies and rice</div></div>
+            <div class="price">$12</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews">
+    <div class="wrap">
+      <div class="section-tag">what people say</div>
+      <h2>Word travels fast around campus.</h2>
+      <div class="reviews">
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>A total hidden gem — the sandwiches and grilled cheese are seriously good, and the prices are hard to beat.</p>
+          <div class="who">— campus regular</div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>My go-to between classes — friendly service and the birria tacos with consommé are unbeatable.</p>
+          <div class="who">— University City student</div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>Quick, cheerful, and consistently great — the beef and shrimp hibachi is a personal favorite.</p>
+          <div class="who">— nearby office worker</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="hours">
+    <div class="wrap">
+      <div class="section-tag">find us</div>
+      <h2>Hours &amp; location.</h2>
+      <div class="hours-location">
+        <div class="info-card">
+          <h3>Weekly hours</h3>
+          <div class="hours-row"><span>Monday</span><span>8:00 AM – 3:00 PM</span></div>
+          <div class="hours-row today"><span>Tuesday</span><span>8:00 AM – 3:00 PM</span></div>
+          <div class="hours-row"><span>Wednesday</span><span>8:00 AM – 3:00 PM</span></div>
+          <div class="hours-row"><span>Thursday</span><span>8:00 AM – 3:00 PM</span></div>
+          <div class="hours-row"><span>Friday</span><span>8:00 AM – 3:00 PM</span></div>
+          <div class="hours-row"><span>Saturday</span><span>Closed</span></div>
+          <div class="hours-row"><span>Sunday</span><span>Closed</span></div>
+        </div>
+        <div class="info-card">
+          <h3>Where to find the truck</h3>
+          <p style="font-size:14.5px; color:rgba(34,28,26,0.75); margin-top:0;">Parked behind Drexel University's main building on Ludlow St — easy walk from most campus buildings, right in the middle of the lunch rush.</p>
+          <p style="font-size:13px; color:rgba(34,28,26,0.55);">3198 Ludlow St, Philadelphia, PA 19104</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="brand">Lennox's <span>Lunch Truck</span></div>
+      <p>Built for Lennox's Lunch Truck as an example — not their official site.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
