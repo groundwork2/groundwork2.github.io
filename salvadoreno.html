@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salvadoreño Food Truck — Philadelphia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #1E3A5F;
+    --mango: #F2A93B;
+    --cream: #FAF6EF;
+    --chile: #D64545;
+    --palta: #6B8F51;
+    --ink: #22303F;
+    --line: rgba(34,48,63,0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Nunito', sans-serif;
+    line-height: 1.55;
+  }
+  h1, h2, h3 { font-family: 'Baloo 2', sans-serif; margin: 0; font-weight: 700; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* papel picado scalloped edge — signature motif, reused as a divider */
+  .picado {
+    height: 26px;
+    background: var(--azul);
+    -webkit-mask-image: radial-gradient(circle at 13px 0, transparent 13px, black 13.5px);
+    -webkit-mask-size: 26px 26px;
+    -webkit-mask-repeat: repeat-x;
+    mask-image: radial-gradient(circle at 13px 0, transparent 13px, black 13.5px);
+    mask-size: 26px 26px;
+    mask-repeat: repeat-x;
+  }
+  .picado.flip { transform: rotate(180deg); }
+
+  header { background: var(--azul); padding: 20px 0; }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-size: 22px; color: var(--cream); display: flex; align-items: center; gap: 8px; }
+  .brand .dot { color: var(--mango); }
+  nav a { color: var(--cream); text-decoration: none; font-weight: 700; font-size: 14px; margin-left: 26px; opacity: 0.85; }
+  nav a:hover { opacity: 1; }
+
+  .hero {
+    background: var(--azul);
+    padding: 50px 0 0;
+    text-align: center;
+    color: var(--cream);
+  }
+  .hero h1 { font-size: clamp(34px, 6vw, 54px); color: var(--cream); }
+  .hero h1 .accent { color: var(--mango); }
+  .hero p.lede { font-size: 17px; max-width: 480px; margin: 16px auto 0; opacity: 0.9; }
+  .hero .cta-row { margin: 28px 0 40px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 15px; padding: 14px 30px; border-radius: 999px; text-decoration: none; display: inline-block; }
+  .btn-solid { background: var(--mango); color: var(--azul); }
+  .btn-outline { background: transparent; color: var(--cream); border: 2px solid var(--cream); }
+
+  .food-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .food-tile {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+  }
+  .food-tile:nth-child(1) { background: var(--mango); }
+  .food-tile:nth-child(2) { background: var(--chile); }
+  .food-tile:nth-child(3) { background: var(--palta); }
+  .food-tile:nth-child(4) { background: #E8C468; }
+
+  section { padding: 64px 0; }
+  .eyebrow { font-family: 'Baloo 2', sans-serif; font-weight: 700; color: var(--chile); font-size: 15px; letter-spacing: 0.03em; text-transform: uppercase; }
+  section h2 { font-size: clamp(28px, 4vw, 38px); margin: 6px 0 36px; max-width: 560px; }
+
+  .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .dish-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 0 var(--line); border: 2px solid var(--azul); }
+  .dish-card .emoji { font-size: 34px; }
+  .dish-card h3 { font-size: 19px; margin: 12px 0 6px; }
+  .dish-card p { font-size: 14px; color: rgba(34,48,63,0.7); margin: 0; }
+
+  .about-split { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .about-split p { font-size: 16px; color: rgba(34,48,63,0.8); }
+  .stat-row { display: flex; gap: 30px; margin-top: 24px; }
+  .stat { }
+  .stat .num { font-family: 'Baloo 2', sans-serif; font-size: 34px; color: var(--chile); }
+  .stat .label { font-size: 13px; color: rgba(34,48,63,0.6); font-weight: 700; }
+  .about-visual {
+    background: var(--mango);
+    border-radius: 20px;
+    aspect-ratio: 1.1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 90px;
+  }
+
+  .info-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .info-panel { background: var(--azul); color: var(--cream); border-radius: 16px; padding: 30px; }
+  .info-panel h3 { color: var(--mango); font-size: 18px; margin-bottom: 16px; }
+  .hours-row { display: flex; justify-content: space-between; font-size: 14.5px; padding: 5px 0; border-bottom: 1px solid rgba(250,246,239,0.15); }
+  .info-panel .contact-line { font-size: 15px; margin-bottom: 8px; }
+  .info-panel a { color: var(--cream); }
+
+  footer { background: var(--ink); color: rgba(250,246,239,0.6); text-align: center; padding: 24px 0; font-size: 13px; }
+
+  @media (max-width: 760px) {
+    .food-strip { grid-template-columns: repeat(2, 1fr); }
+    .menu-grid { grid-template-columns: 1fr; }
+    .about-split { grid-template-columns: 1fr; }
+    .info-panels { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">Salvadoreño <span class="dot">●</span> Food Truck</div>
+      <nav>
+        <a href="#menu">Menu</a>
+        <a href="#about">About</a>
+        <a href="#visit">Visit Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="wrap">
+      <h1>Real Salvadoran food, <span class="accent">made fresh</span> on the truck.</h1>
+      <p class="lede">Pupusas, tacos, and tostadas — made from scratch, served with care, right here in Philadelphia.</p>
+      <div class="cta-row">
+        <a href="#menu" class="btn btn-solid">View the menu</a>
+        <a href="#visit" class="btn btn-outline">Find us today</a>
+      </div>
+    </div>
+    <div class="food-strip">
+      <div class="food-tile">🫓</div>
+      <div class="food-tile">🌮</div>
+      <div class="food-tile">🥑</div>
+      <div class="food-tile">🌽</div>
+    </div>
+  </div>
+  <div class="picado"></div>
+
+  <section id="menu">
+    <div class="wrap">
+      <div class="eyebrow">The menu</div>
+      <h2>Every dish made fresh, made to order.</h2>
+      <div class="menu-grid">
+        <div class="dish-card">
+          <div class="emoji">🫓</div>
+          <h3>Pupusas</h3>
+          <p>Thick corn tortillas stuffed and griddled fresh — ask about the secret menu flavors.</p>
+        </div>
+        <div class="dish-card">
+          <div class="emoji">🌮</div>
+          <h3>Tacos</h3>
+          <p>Carnitas and al pastor, topped with fresh onion and cilantro.</p>
+        </div>
+        <div class="dish-card">
+          <div class="emoji">🍽️</div>
+          <h3>Tostadas</h3>
+          <p>Crispy and generously loaded — a favorite for a reason.</p>
+        </div>
+        <div class="dish-card">
+          <div class="emoji">🥙</div>
+          <h3>Veggie Burrito</h3>
+          <p>Fresh, made-to-order, and always packed with flavor.</p>
+        </div>
+        <div class="dish-card">
+          <div class="emoji">🥗</div>
+          <h3>Curtido</h3>
+          <p>Traditional pickled cabbage slaw — the perfect side.</p>
+        </div>
+        <div class="dish-card">
+          <div class="emoji">🧉</div>
+          <h3>Horchata</h3>
+          <p>Cold, sweet, and refreshing — the perfect finish.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="picado flip"></div>
+
+  <section id="about">
+    <div class="wrap about-split">
+      <div>
+        <div class="eyebrow">Our story</div>
+        <h2>Family recipes, cooked with care.</h2>
+        <p>Every dish is made the way it's meant to be — fresh ingredients, traditional recipes, and a lot of pride in every order that goes out the window.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="num">4.9★</div><div class="label">average rating</div></div>
+          <div class="stat"><div class="num">50+</div><div class="label">happy reviews</div></div>
+        </div>
+      </div>
+      <div class="about-visual">🚚</div>
+    </div>
+  </section>
+
+  <section id="visit">
+    <div class="wrap">
+      <div class="eyebrow">Visit us</div>
+      <h2>Find the truck, know before you go.</h2>
+      <div class="info-panels">
+        <div class="info-panel">
+          <h3>Hours</h3>
+          <div class="hours-row"><span>Monday</span><span>10:00 AM – 9:00 PM</span></div>
+          <div class="hours-row"><span>Tuesday</span><span>10:00 AM – 9:00 PM</span></div>
+          <div class="hours-row"><span>Wednesday</span><span>10:00 AM – 9:00 PM</span></div>
+          <div class="hours-row"><span>Thursday</span><span>10:00 AM – 9:00 PM</span></div>
+          <div class="hours-row"><span>Friday</span><span>10:00 AM – 9:00 PM</span></div>
+          <div class="hours-row"><span>Saturday</span><span>10:00 AM – 9:00 PM</span></div>
+          <div class="hours-row"><span>Sunday</span><span>10:00 AM – 9:00 PM</span></div>
+        </div>
+        <div class="info-panel">
+          <h3>Contact &amp; location</h3>
+          <div class="contact-line">📍 1135 Spring Garden St, Philadelphia, PA 19123</div>
+          <div class="contact-line">📞 <a href="tel:12195015510">(219) 501-5510</a></div>
+          <div class="contact-line" style="margin-top:18px; font-size:13.5px; opacity:0.75;">Open every day of the week — walk up, no reservation needed.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Built as a redesign example for Salvadoreño Food Truck — not their official site.
+  </footer>
+
+</body>
+</html>
